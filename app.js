@@ -7,7 +7,10 @@ window.onload=()=>{
   months.forEach((m,i)=>{ const option=document.createElement('option'); option.value=i; option.text=m; select.add(option); });
 
   // Splash 5s → login
-  setTimeout(()=>{ document.getElementById('splash').classList.add('hidden'); document.getElementById('login-screen').classList.remove('hidden'); },5000);
+  setTimeout(()=>{
+    document.getElementById('splash').classList.add('hidden');
+    document.getElementById('login-screen').classList.remove('hidden');
+  },5000);
 };
 
 function login(){
@@ -19,7 +22,11 @@ function login(){
   loadMonth();
 }
 
-function logout(){ currentUser=null; document.getElementById('login-screen').classList.remove('hidden'); document.getElementById('dashboard').classList.add('hidden'); }
+function logout(){ 
+  currentUser=null; 
+  document.getElementById('login-screen').classList.remove('hidden'); 
+  document.getElementById('dashboard').classList.add('hidden'); 
+}
 
 function getValue(id){ return Number(document.getElementById(id).value)||0; }
 
