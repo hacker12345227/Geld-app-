@@ -1,97 +1,37 @@
-let currentUser = null;
-let chart = null;
-const months = ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December'];
+* { box-sizing:border-box; font-family:'Segoe UI',sans-serif; margin:0; padding:0; }
+body { background:#f3f4f6; color:#111; }
 
-window.onload = () => {
-  const select = document.getElementById('month-select');
-  months.forEach((m,i)=> {
-    const option = document.createElement('option');
-    option.value = i;
-    option.text = m;
-    select.add(option);
-  });
-}
+.screen { display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column; }
+.hidden { display:none; }
 
-function login() {
-  const username = document.getElementById('username').value.trim();
-  if(!username) { alert('Vul een gebruikersnaam in'); return; }
-  currentUser = username;
-  document.getElementById('login-screen').classList.add('hidden');
-  document.getElementById('dashboard').classList.remove('hidden');
-  loadMonth();
-}
+.splash-gif { width:200px; }
 
-function logout() {
-  currentUser = null;
-  document.getElementById('login-screen').classList.remove('hidden');
-  document.getElementById('dashboard').classList.add('hidden');
-}
+.login-card { background:white; padding:40px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); text-align:center; width:90%; max-width:320px; }
+.login-card input { width:100%; padding:12px; margin:10px 0; border-radius:6px; border:none; background:rgba(0,0,0,0.4); color:white; }
+.login-card input::placeholder { color:rgba(255,255,255,0.7); }
+.login-card button { padding:12px 20px; border:none; border-radius:6px; background:#60a5fa; color:black; font-weight:bold; cursor:pointer; }
+.login-card button:hover { background:#3b82f6; }
+.logo { width:100px; margin-bottom:20px; }
 
-function getValue(id) { return Number(document.getElementById(id).value) || 0; }
+header { display:flex; justify-content:space-between; align-items:center; padding:15px 20px; background:#111827; color:white; border-bottom:1px solid #ccc; flex-wrap:wrap; }
+header h1 { font-size:1.4rem; margin:5px 0; }
+header .logout { padding:8px 16px; border:none; border-radius:6px; background:#ef4444; color:white; cursor:pointer; }
+header .logout:hover { background:#b91c1c; }
 
-function calculate() {
-  const month = document.getElementById('month-select').value;
-  if(month===''){ alert('Selecteer een maand'); return; }
+main { max-width:700px; margin:20px auto; padding:0 16px; width:100%; }
 
-  const income = getValue('income');
-  const rent = getValue('rent');
-  const insurance = getValue('insurance');
-  const subscriptions = getValue('subscriptions');
-  const food = getValue('food');
-  const other = getValue('other');
+.card { background:white; padding:20px; border-radius:12px; margin-bottom:20px; box-shadow:0 4px 12px rgba(0,0,0,0.05); }
+.highlight { background:#eef2ff; }
 
-  const expenses = rent + insurance + subscriptions + food + other;
-  const result = income - expenses;
-  document.getElementById('result').innerText = '€' + result.toFixed(2);
+input, select { width:100%; padding:12px; margin-top:10px; font-size:1rem; border-radius:6px; border:none; background:rgba(0,0,0,0.4); color:white; }
+input::placeholder, select::placeholder { color:rgba(255,255,255,0.7); }
 
-  let userData = JSON.parse(localStorage.getItem('budget_' + currentUser)) || {};
-  userData[month] = { income, rent, insurance, subscriptions, food, other, result };
-  localStorage.setItem('budget_' + currentUser, JSON.stringify(userData));
+button { width:100%; padding:16px; font-size:1.1rem; background:#60a5fa; color:black; border:none; border-radius:8px; cursor:pointer; }
+button:hover { background:#3b82f6; }
 
-  renderChart(userData);
-}
+#result { font-size:2rem; font-weight:bold; margin-top:10px; }
 
-function loadMonth() {
-  const month = document.getElementById('month-select').value;
-  let userData = JSON.parse(localStorage.getItem('budget_' + currentUser)) || {};
-  if(month!=='' && userData[month]){
-    const data = userData[month];
-    for(const key of ['income','rent','insurance','subscriptions','food','other']) {
-      document.getElementById(key).value = data[key] || 0;
-    }
-    document.getElementById('result').innerText = '€'+ (data.result||0).toFixed(2);
-  } else {
-    for(const key of ['income','rent','insurance','subscriptions','food','other']) {
-      document.getElementById(key).value = '';
-    }
-    document.getElementById('result').innerText = '€0';
-  }
-  renderChart(userData);
-}
-
-function renderChart(userData) {
-  const ctx = document.getElementById('chart').getContext('2d');
-  const labels = months;
-  const expensesData = months.map((m,i)=> {
-    const d = userData[i];
-    return d ? d.rent + d.insurance + d.subscriptions + d.food + d.other : 0;
-  });
-  const incomeData = months.map((m,i)=> {
-    const d = userData[i];
-    return d ? d.income : 0;
-  });
-  const resultData = months.map((m,i)=> {
-    const d = userData[i];
-    return d ? d.result : 0;
-  });
-  const chartData = {
-    labels: labels,
-    datasets: [
-      { label:'Inkomsten', data: incomeData, backgroundColor:'#4f46e5' },
-      { label:'Uitgaven', data: expensesData, backgroundColor:'#ef4444' },
-      { label:'Over', data: resultData, backgroundColor:'#10b981' }
-    ]
-  };
-  if(chart) chart.destroy();
-  chart = new Chart(ctx, { type:'bar', data:chartData, options:{ responsive:true, plugins:{legend:{position:'bottom'}}, scales:{y:{beginAtZero:true}} } });
+@media (max-width:600px){
+  header { flex-direction:column; text-align:center; }
+  .login-card { padding:30px; }
 }
