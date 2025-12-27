@@ -35,7 +35,7 @@
     <section class="card">
       <h2>Maand kiezen</h2>
       <select id="month-select" onchange="loadMonth()">
-        <option value="">Selecteer maand</option>
+        <!-- Wordt gevuld met JS -->
       </select>
     </section>
 
@@ -60,7 +60,8 @@
     <section class="card highlight">
       <h2>Resultaat</h2>
       <p id="result">€0</p>
-      <canvas id="chart" height="200"></canvas>
+      <canvas id="barChart" height="200"></canvas>
+      <canvas id="pieChart" height="200" style="margin-top:20px;"></canvas>
     </section>
 
     <button onclick="calculate()">Bereken & Opslaan</button>
