@@ -1,5 +1,16 @@
 let currentUser = null;
 let chart = null;
+const months = ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December'];
+
+window.onload = () => {
+  const select = document.getElementById('month-select');
+  months.forEach((m,i)=> {
+    const option = document.createElement('option');
+    option.value = i;
+    option.text = m;
+    select.add(option);
+  });
+}
 
 function login() {
   const username = document.getElementById('username').value.trim();
@@ -7,7 +18,7 @@ function login() {
   currentUser = username;
   document.getElementById('login-screen').classList.add('hidden');
   document.getElementById('dashboard').classList.remove('hidden');
-  loadData();
+  loadMonth();
 }
 
 function logout() {
@@ -19,6 +30,9 @@ function logout() {
 function getValue(id) { return Number(document.getElementById(id).value) || 0; }
 
 function calculate() {
+  const month = document.getElementById('month-select').value;
+  if(month===''){ alert('Selecteer een maand'); return; }
+
   const income = getValue('income');
   const rent = getValue('rent');
   const insurance = getValue('insurance');
@@ -30,31 +44,54 @@ function calculate() {
   const result = income - expenses;
   document.getElementById('result').innerText = '€' + result.toFixed(2);
 
-  const data = { income, rent, insurance, subscriptions, food, other, result };
-  localStorage.setItem('budget_' + currentUser, JSON.stringify(data));
-  renderChart(data);
+  let userData = JSON.parse(localStorage.getItem('budget_' + currentUser)) || {};
+  userData[month] = { income, rent, insurance, subscriptions, food, other, result };
+  localStorage.setItem('budget_' + currentUser, JSON.stringify(userData));
+
+  renderChart(userData);
 }
 
-function loadData() {
-  const data = JSON.parse(localStorage.getItem('budget_' + currentUser));
-  if(!data) return;
-  for(const key of ['income','rent','insurance','subscriptions','food','other']) {
-    document.getElementById(key).value = data[key] || 0;
+function loadMonth() {
+  const month = document.getElementById('month-select').value;
+  let userData = JSON.parse(localStorage.getItem('budget_' + currentUser)) || {};
+  if(month!=='' && userData[month]){
+    const data = userData[month];
+    for(const key of ['income','rent','insurance','subscriptions','food','other']) {
+      document.getElementById(key).value = data[key] || 0;
+    }
+    document.getElementById('result').innerText = '€'+ (data.result||0).toFixed(2);
+  } else {
+    for(const key of ['income','rent','insurance','subscriptions','food','other']) {
+      document.getElementById(key).value = '';
+    }
+    document.getElementById('result').innerText = '€0';
   }
-  document.getElementById('result').innerText = '€' + (data.result || 0).toFixed(2);
-  renderChart(data);
+  renderChart(userData);
 }
 
-function renderChart(data) {
+function renderChart(userData) {
   const ctx = document.getElementById('chart').getContext('2d');
+  const labels = months;
+  const expensesData = months.map((m,i)=> {
+    const d = userData[i];
+    return d ? d.rent + d.insurance + d.subscriptions + d.food + d.other : 0;
+  });
+  const incomeData = months.map((m,i)=> {
+    const d = userData[i];
+    return d ? d.income : 0;
+  });
+  const resultData = months.map((m,i)=> {
+    const d = userData[i];
+    return d ? d.result : 0;
+  });
   const chartData = {
-    labels: ['Vaste lasten','Variabel','Over'],
-    datasets:[{
-      label:'Budget verdeling',
-      data:[ data.rent+data.insurance+data.subscriptions, data.food+data.other, data.result],
-      backgroundColor:['#4f46e5','#facc15','#10b981']
-    }]
+    labels: labels,
+    datasets: [
+      { label:'Inkomsten', data: incomeData, backgroundColor:'#4f46e5' },
+      { label:'Uitgaven', data: expensesData, backgroundColor:'#ef4444' },
+      { label:'Over', data: resultData, backgroundColor:'#10b981' }
+    ]
   };
   if(chart) chart.destroy();
-  chart = new Chart(ctx, { type:'doughnut', data:chartData, options:{responsive:true, plugins:{legend:{position:'bottom'}}} });
+  chart = new Chart(ctx, { type:'bar', data:chartData, options:{ responsive:true, plugins:{legend:{position:'bottom'}}, scales:{y:{beginAtZero:true}} } });
 }
