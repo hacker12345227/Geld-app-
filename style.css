@@ -2,52 +2,57 @@
 body { background:#000; color:white; }
 
 /* Screens */
-.screen { display:flex; justify-content:center; align-items:flex-start; height:100vh; flex-direction:column; padding:20px; }
+.screen { display:flex; flex-direction:column; align-items:center; justify-content:flex-start; min-height:100vh; width:100%; padding:10px; }
 .hidden { display:none; }
 
 /* Splash */
-.splash-gif { width:250px; margin:auto; }
+.splash-gif { width:200px; margin:auto; }
 
 /* Login card */
-.login-card { background:#111; padding:40px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.5); text-align:center; width:90%; max-width:320px; margin:auto; }
+.login-card { background:#111; padding:30px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.5); text-align:center; width:100%; max-width:320px; }
 .login-card input { width:100%; padding:12px; margin:10px 0; border-radius:6px; border:none; background:rgba(20,20,20,0.4); color:white; }
 .login-card input::placeholder { color:rgba(255,255,255,0.6); }
-.login-card button { padding:12px 20px; border:none; border-radius:6px; background:#60a5fa; color:black; font-weight:bold; cursor:pointer; }
+.login-card button { width:100%; padding:12px; border:none; border-radius:6px; background:#60a5fa; color:black; font-weight:bold; cursor:pointer; }
 .login-card button:hover { background:#3b82f6; }
-.logo { width:100px; margin-bottom:20px; }
+.logo { width:80px; margin-bottom:15px; }
 
 /* Header */
-header { display:flex; justify-content:space-between; align-items:center; padding:15px 20px; background:#000; color:white; border-bottom:1px solid #222; flex-wrap:wrap; }
-header h1 { font-size:1.4rem; margin:5px 0; }
-header .logout { padding:8px 16px; border:none; border-radius:6px; background:#ef4444; color:white; cursor:pointer; }
+header { display:flex; justify-content:space-between; align-items:center; width:100%; padding:10px; background:#000; color:white; border-bottom:1px solid #222; flex-wrap:wrap; }
+header h1 { font-size:1.2rem; margin:5px 0; }
+header .logout { padding:6px 12px; border:none; border-radius:6px; background:#ef4444; color:white; cursor:pointer; }
 header .logout:hover { background:#b91c1c; }
 
 /* Main dashboard */
-main { max-width:900px; margin:20px auto; padding:0 16px; width:100%; }
+main { width:100%; max-width:480px; display:flex; flex-direction:column; align-items:center; }
 
-/* 3D vakken (cards) */
-.card { background:rgba(20,20,20,0.4); padding:20px; border-radius:12px; margin-bottom:20px; box-shadow:0 4px 12px rgba(0,0,0,0.6); color:white; }
+/* Cards */
+.card { background:rgba(20,20,20,0.4); padding:15px; border-radius:12px; margin-bottom:15px; width:100%; box-shadow:0 4px 10px rgba(0,0,0,0.6); }
 .highlight { background:rgba(30,30,30,0.5); }
 
 /* Inputs */
-input, select { width:100%; padding:12px; margin-top:10px; font-size:1rem; border-radius:6px; border:none; background:rgba(20,20,20,0.4); color:white; }
+input, select { width:100%; padding:10px; margin-top:8px; font-size:1rem; border-radius:6px; border:none; background:rgba(20,20,20,0.4); color:white; }
 input::placeholder, select::placeholder { color:rgba(255,255,255,0.6); }
 
 /* Buttons */
-button { width:100%; padding:16px; font-size:1.1rem; background:#60a5fa; color:black; border:none; border-radius:8px; cursor:pointer; }
+button { width:100%; padding:14px; font-size:1rem; background:#60a5fa; color:black; border:none; border-radius:8px; cursor:pointer; margin-top:10px; }
 button:hover { background:#3b82f6; }
 
 /* Resultaat */
-#result { font-size:2rem; font-weight:bold; margin-top:10px; }
+#result { font-size:1.8rem; font-weight:bold; margin-top:10px; }
 
 /* Table */
-table { width:100%; border-collapse:collapse; margin-top:10px; }
-th, td { padding:8px 12px; text-align:center; border:1px solid rgba(255,255,255,0.2); }
+.table-wrapper { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; margin-top:10px; min-width:300px; }
+th, td { padding:6px 10px; text-align:center; border:1px solid rgba(255,255,255,0.2); font-size:0.9rem; }
 th { background:rgba(50,50,50,0.6); }
 td { background:rgba(30,30,30,0.5); }
 
+/* Charts responsive */
+canvas { width:100% !important; height:auto !important; }
+
 /* Mobiel */
-@media (max-width:600px){
+@media (max-width:480px){
   header { flex-direction:column; text-align:center; }
-  .login-card { padding:30px; }
+  .login-card { padding:25px; }
+  #result { font-size:1.5rem; }
 }
