@@ -32,16 +32,19 @@
   </header>
 
   <main>
+    <!-- Maand selecteren -->
     <section class="card">
       <h2>Maand kiezen</h2>
       <select id="month-select" onchange="loadMonth()"></select>
     </section>
 
+    <!-- Inkomsten -->
     <section class="card">
       <h2>Inkomsten</h2>
       <input id="income" type="number" placeholder="Maandinkomen (€)">
     </section>
 
+    <!-- Vaste lasten -->
     <section class="card">
       <h2>Vaste lasten</h2>
       <input id="rent" type="number" placeholder="Huur / hypotheek">
@@ -49,34 +52,37 @@
       <input id="subscriptions" type="number" placeholder="Abonnementen">
     </section>
 
+    <!-- Variabele kosten -->
     <section class="card">
       <h2>Variabele kosten</h2>
       <input id="food" type="number" placeholder="Boodschappen">
       <input id="other" type="number" placeholder="Overig">
     </section>
 
+    <!-- Resultaat en grafieken -->
     <section class="card highlight">
       <h2>Resultaat</h2>
       <p id="result">€0</p>
-      <canvas id="barChart" height="200"></canvas>
-      <canvas id="pieChart" height="200" style="margin-top:20px;"></canvas>
+      <canvas id="barChart" height="150"></canvas>
+      <canvas id="pieChart" height="150" style="margin-top:15px;"></canvas>
     </section>
 
+    <!-- Overzichtstabel -->
     <section class="card">
       <h2>Overzicht per maand</h2>
-      <table id="overviewTable">
-        <thead>
-          <tr>
-            <th>Maand</th>
-            <th>Inkomen</th>
-            <th>Uitgaven</th>
-            <th>Over</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Wordt via JS gevuld -->
-        </tbody>
-      </table>
+      <div class="table-wrapper">
+        <table id="overviewTable">
+          <thead>
+            <tr>
+              <th>Maand</th>
+              <th>Inkomen</th>
+              <th>Uitgaven</th>
+              <th>Over</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </section>
 
     <button onclick="calculate()">Bereken & Opslaan</button>
