@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mijn Geld Overzicht</title>
+<link rel="stylesheet" href="style.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div id="login-screen" class="screen">
+  <div class="login-card">
+    <h2>Welkom</h2>
+    <input type="text" id="username" placeholder="Gebruikersnaam" />
+    <button onclick="login()">Start</button>
+  </div>
+</div>
+
+<div id="dashboard" class="screen hidden">
+  <header>
+    <h1>Mijn Geld Overzicht</h1>
+    <button class="logout" onclick="logout()">Uitloggen</button>
+  </header>
+  <main>
+    <section class="card">
+      <h2>Inkomsten</h2>
+      <input id="income" type="number" placeholder="Maandinkomen (€)" />
+    </section>
+
+    <section class="card">
+      <h2>Vaste lasten</h2>
+      <input id="rent" type="number" placeholder="Huur / hypotheek" />
+      <input id="insurance" type="number" placeholder="Verzekeringen" />
+      <input id="subscriptions" type="number" placeholder="Abonnementen" />
+    </section>
+
+    <section class="card">
+      <h2>Variabele kosten</h2>
+      <input id="food" type="number" placeholder="Boodschappen" />
+      <input id="other" type="number" placeholder="Overig" />
+    </section>
+
+    <section class="card highlight">
+      <h2>Resultaat</h2>
+      <p id="result">€0</p>
+      <canvas id="chart" height="200"></canvas>
+    </section>
+
+    <button onclick="calculate()">Bereken & Opslaan</button>
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
