@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mijn Geld Overzicht</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header>
+    <h1>Mijn Geld Overzicht</h1>
+    <p>Volledig offline • Geen account • Alles blijft op je device</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Inkomsten</h2>
+      <input id="income" type="number" placeholder="Maandinkomen (€)" />
+    </section>
+
+    <section class="card">
+      <h2>Vaste lasten</h2>
+      <input id="rent" type="number" placeholder="Huur / hypotheek" />
+      <input id="insurance" type="number" placeholder="Verzekeringen" />
+      <input id="subscriptions" type="number" placeholder="Abonnementen" />
+    </section>
+
+    <section class="card">
+      <h2>Variabele kosten</h2>
+      <input id="food" type="number" placeholder="Boodschappen" />
+      <input id="other" type="number" placeholder="Overig" />
+    </section>
+
+    <section class="card highlight">
+      <h2>Resultaat</h2>
+      <p id="result">€0</p>
+    </section>
+
+    <button onclick="calculate()">Bereken</button>
+  </main>
+
+  <footer>
+    <p>© 2025 – Mijn Geld Overzicht</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
