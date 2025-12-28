@@ -1,99 +1,149 @@
-*{box-sizing:border-box;font-family:sans-serif}
-body{margin:0;background:#000;color:#fff}
-
-.hidden{display:none}
-
-/* Splash */
-#splash{
-  height:100vh;display:flex;justify-content:center;align-items:center
-}
-#splash img{width:200px}
-
-/* Login */
-#login{
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:15px;
-}
-#login img{width:90px;border-radius:10px}
-#login input{
-  width:80%;
-  padding:12px;
-  background:rgba(30,30,30,.4);
-  border:none;
-  color:white;
-  border-radius:8px
-}
-button{
-  padding:14px;
-  width:80%;
-  background:#60a5fa;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  z-index:1;
-  position:relative;
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
 }
 
-/* Header */
-header{
-  display:flex;
-  align-items:center;
-  padding:10px;
-  border-bottom:1px solid #222
-}
-.hamburger{font-size:24px;cursor:pointer}
-.title{
-  display:flex;align-items:center;gap:10px;margin-left:10px
-}
-.title img{width:32px;border-radius:6px}
-
-/* Menu */
-nav{
-  position:fixed;
-  top:50px;
-  left:10px;
-  background:#111;
-  padding:10px;
-  border-radius:10px;
-  z-index:999
-}
-nav button{
-  width:100%;
-  margin-bottom:8px;
-  background:#222;
-  color:white
-}
-.logout{background:#b91c1c}
-
-/* Pages */
-.page{
-  max-width:480px;
-  margin:auto;
-  padding:15px
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
 }
 
-/* Cards */
-.card{
-  background:rgba(20,20,20,.4);
-  padding:15px;
-  border-radius:14px;
-  margin-bottom:15px
-}
-.highlight{background:rgba(40,40,40,.6)}
-
-input,select{
-  width:100%;
-  padding:10px;
-  margin-top:8px;
-  background:rgba(20,20,20,.4);
-  border:none;
-  color:white;
-  border-radius:6px
+.hidden {
+  display: none;
 }
 
-canvas{pointer-events:none}
-#result{text-align:center;font-size:1.8rem}
+/* SPLASH */
+#splash {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#splash img {
+  width: 200px;
+}
+
+/* LOGIN */
+#login-screen {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  width: 90px;
+  border-radius: 12px;
+}
+
+#login-screen input {
+  width: 80%;
+  padding: 12px;
+  background: rgba(30,30,30,0.4);
+  border: none;
+  color: white;
+  border-radius: 8px;
+}
+
+/* HEADER */
+header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #222;
+}
+
+.hamburger {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.title img {
+  width: 32px;
+  border-radius: 6px;
+}
+
+/* MENU */
+nav {
+  position: fixed;
+  top: 50px;
+  left: 10px;
+  background: #111;
+  padding: 10px;
+  border-radius: 10px;
+  z-index: 999;
+}
+
+nav button {
+  width: 100%;
+  margin-bottom: 8px;
+  background: #222;
+  color: white;
+}
+
+.logout {
+  background: #b91c1c;
+}
+
+/* CONTENT */
+.page {
+  max-width: 480px;
+  margin: auto;
+  padding: 15px;
+}
+
+.card {
+  background: rgba(20,20,20,0.4);
+  padding: 15px;
+  border-radius: 14px;
+  margin-bottom: 15px;
+}
+
+.highlight {
+  background: rgba(40,40,40,0.6);
+}
+
+/* INPUTS */
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  background: rgba(20,20,20,0.4);
+  border: none;
+  color: white;
+  border-radius: 6px;
+}
+
+/* BUTTONS */
+button {
+  width: 80%;
+  padding: 14px;
+  background: #60a5fa;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: black;
+}
+
+/* RESULT */
+#result {
+  text-align: center;
+  font-size: 1.8rem;
+}
+
+/* CHARTS */
+canvas {
+  width: 100% !important;
+  pointer-events: none;
+}
