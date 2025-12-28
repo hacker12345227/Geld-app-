@@ -1,72 +1,14 @@
 *{box-sizing:border-box;font-family:sans-serif}
-
-body{
-  margin:0;
-  background:#000;
-  color:#fff;
-}
-
+body{margin:0;background:#000;color:#fff}
 .hidden{display:none}
-
-#splash{
-  position:fixed;
-  inset:0;
-  background:black;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:10;
-}
-
-#login-screen{
-  min-height:100vh;
-  background:black;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  gap:12px;
-}
-
+#splash{position:fixed; inset:0; background:black; display:flex; justify-content:center; align-items:center; z-index:10}
+#login-screen{min-height:100vh; background:black; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:12px}
 .logo{width:120px;border-radius:12px}
 .logo-small{width:40px}
-
-input,select{
-  width:80%;
-  padding:12px;
-  background:rgba(40,40,40,.4);
-  border:none;
-  color:white;
-  border-radius:10px;
-}
-
-button{
-  padding:12px 20px;
-  background:#4da3ff;
-  border:none;
-  color:black;
-  border-radius:10px;
-}
-
-header{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:10px;
-}
-
-nav{
-  position:absolute;
-  background:black;
-  padding:10px;
-  z-index:5;
-}
-
-.card{
-  background:rgba(40,40,40,.4);
-  margin:10px;
-  padding:15px;
-  border-radius:15px;
-}
-
+input,select{width:80%; padding:12px; background:rgba(40,40,40,.4); border:none; color:white; border-radius:10px; margin:5px 0}
+button{padding:12px 20px; background:#4da3ff; border:none; color:black; border-radius:10px; margin-top:10px}
+header{display:flex; align-items:center; gap:10px; padding:10px}
+nav{position:absolute; background:black; padding:10px; z-index:5}
+.card{background:rgba(40,40,40,.4); margin:10px; padding:15px; border-radius:15px}
 canvas{max-width:100%}
+.page{display:block;}
