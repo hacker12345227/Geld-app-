@@ -1,14 +1,9 @@
-
 self.addEventListener("install",e=>{
   e.waitUntil(
-    caches.open("zykon").then(c=>
-      c.addAll(["./","index.html","style.css","app.js"])
-    )
+    caches.open("zykon").then(c=>c.addAll(["./","index.html","style.css","app.js"]))
   )
 })
 
 self.addEventListener("fetch",e=>{
-  e.respondWith(
-    caches.match(e.request).then(r=>r||fetch(e.request))
-  )
+  e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))
 })
