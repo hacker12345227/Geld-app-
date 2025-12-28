@@ -4,9 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zykon</title>
+
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#000000">
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -20,8 +22,10 @@
 <div id="login-screen" class="hidden">
   <img class="logo" src="https://i.postimg.cc/yNvDqhPN/Screenshot-2025-12-27-23-50-38-85-92460851df6f172a4592fca41cc2d2e6.jpg">
   <h2>Zykon</h2>
+
   <input id="username" placeholder="Gebruikersnaam">
-  <input id="pin" type="number" inputmode="numeric" placeholder="PIN">
+  <input id="pin" type="password" placeholder="Wachtwoord">
+
   <button type="button" onclick="doLogin()">Inloggen</button>
 </div>
 
@@ -42,7 +46,6 @@
   <button class="logout" onclick="logout()">Uitloggen</button>
 </nav>
 
-<!-- DASHBOARD -->
 <main id="dashboard" class="page">
   <div class="card">
     <select id="month" onchange="loadMonth()"></select>
@@ -70,12 +73,14 @@
   <button type="button" onclick="save()">Opslaan</button>
 </main>
 
-<!-- GRAFIEKEN -->
 <main id="charts" class="page hidden">
   <canvas id="barChart"></canvas>
   <canvas id="pieChart"></canvas>
 </main>
 
+</div>
+
+<script src="users.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
