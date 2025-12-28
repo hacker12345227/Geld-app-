@@ -1,90 +1,76 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zykon</title>
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zykon</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
 <!-- Splash -->
-<div id="splash" class="screen">
-  <img src="https://i.postimg.cc/Y04Gz4QD/ezgif-2db455828359a703.gif" class="splash-gif">
+<div id="splash">
+  <img src="https://i.postimg.cc/Y04Gz4QD/ezgif-2db455828359a703.gif">
 </div>
 
 <!-- Login -->
-<div id="login-screen" class="screen hidden">
-  <div class="login-card">
-    <img src="https://i.postimg.cc/yNvDqhPN/Screenshot-2025-12-27-23-50-38-85-92460851df6f172a4592fca41cc2d2e6.jpg" class="logo">
-    <h2>Zykon</h2>
-    <input type="text" id="username" placeholder="Gebruikersnaam">
-    <button onclick="login()">Inloggen</button>
-  </div>
+<div id="login" class="hidden">
+  <img src="https://i.postimg.cc/yNvDqhPN/Screenshot-2025-12-27-23-50-38-85-92460851df6f172a4592fca41cc2d2e6.jpg">
+  <h2>Zykon</h2>
+  <input id="username" placeholder="Gebruikersnaam">
+  <button onclick="login()">Inloggen</button>
 </div>
 
 <!-- App -->
 <div id="app" class="hidden">
 
-  <!-- Header -->
-  <header class="app-header">
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
-    <div class="header-title">
-      <img src="https://i.postimg.cc/yNvDqhPN/Screenshot-2025-12-27-23-50-38-85-92460851df6f172a4592fca41cc2d2e6.jpg">
-      <span>Zykon</span>
-    </div>
-  </header>
+<header>
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+  <div class="title">
+    <img src="https://i.postimg.cc/yNvDqhPN/Screenshot-2025-12-27-23-50-38-85-92460851df6f172a4592fca41cc2d2e6.jpg">
+    <span>Zykon</span>
+  </div>
+</header>
 
-  <!-- Menu -->
-  <nav id="side-menu" class="side-menu hidden">
-    <button onclick="showPage('dashboard')">Dashboard</button>
-    <button onclick="showPage('charts')">Grafieken</button>
-    <button class="logout" onclick="logout()">Uitloggen</button>
-  </nav>
+<nav id="menu" class="hidden">
+  <button onclick="show('dashboard')">Dashboard</button>
+  <button onclick="show('charts')">Grafieken</button>
+  <button class="logout" onclick="logout()">Uitloggen</button>
+</nav>
 
-  <!-- Dashboard -->
-  <main id="dashboard" class="page">
-    <div class="card">
-      <h3>Maand</h3>
-      <select id="month-select" onchange="loadMonth()"></select>
-    </div>
+<main id="dashboard" class="page">
 
-    <div class="card">
-      <h3>Inkomen</h3>
-      <input id="income" type="number" placeholder="Inkomen">
-    </div>
+  <div class="card">
+    <select id="month" onchange="loadMonth()"></select>
+  </div>
 
-    <div class="card">
-      <h3>Vaste lasten</h3>
-      <input id="rent" placeholder="Huur">
-      <input id="insurance" placeholder="Verzekeringen">
-      <input id="subscriptions" placeholder="Abonnementen">
-    </div>
+  <div class="card">
+    <h3>Inkomen</h3>
+    <input type="number" id="income">
+  </div>
 
-    <div class="card">
-      <h3>Variabel</h3>
-      <input id="food" placeholder="Boodschappen">
-      <input id="other" placeholder="Overig">
-    </div>
+  <div class="card">
+    <h3>Uitgaven</h3>
+    <input type="number" id="rent" placeholder="Huur">
+    <input type="number" id="insurance" placeholder="Verzekering">
+    <input type="number" id="subs" placeholder="Abonnementen">
+    <input type="number" id="food" placeholder="Boodschappen">
+    <input type="number" id="other" placeholder="Overig">
+  </div>
 
-    <div class="card highlight">
-      <h3>Over</h3>
-      <div id="result">€0</div>
-    </div>
+  <div class="card highlight">
+    <h3>Over</h3>
+    <div id="result">€0</div>
+  </div>
 
-    <button onclick="calculate()">Opslaan</button>
-  </main>
+  <button onclick="save()">Opslaan</button>
+</main>
 
-  <!-- Grafieken -->
-  <main id="charts" class="page hidden">
-    <div class="card">
-      <canvas id="barChart"></canvas>
-    </div>
-    <div class="card">
-      <canvas id="pieChart"></canvas>
-    </div>
-  </main>
+<main id="charts" class="page hidden">
+  <canvas id="bar"></canvas>
+  <canvas id="pie"></canvas>
+</main>
 
 </div>
 
