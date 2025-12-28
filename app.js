@@ -1,123 +1,123 @@
-let currentUser=null;
-let barChart=null;
-let pieChart=null;
-const months=['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December'];
+let user = null;
+let barChart, pieChart;
 
-window.onload=()=>{ 
-  const select=document.getElementById('month-select');
-  months.forEach((m,i)=>{ 
-    const option=document.createElement('option'); 
-    option.value=i; 
-    option.text=m; 
-    select.add(option); 
-  });
+const months = ['Jan','Feb','Mrt','Apr','Mei','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
 
-  setTimeout(()=>{
+window.onload = () => {
+  setTimeout(() => {
     document.getElementById('splash').classList.add('hidden');
-    document.getElementById('login-screen').classList.remove('hidden');
-  },5000);
+
+    const savedUser = sessionStorage.getItem('zykon_user');
+    if (savedUser) {
+      user = savedUser;
+      startApp();
+    } else {
+      document.getElementById('login-screen').classList.remove('hidden');
+    }
+  }, 3000);
+
+  const select = document.getElementById('month-select');
+  months.forEach((m,i)=> {
+    const o = document.createElement('option');
+    o.value = i;
+    o.text = m;
+    select.add(o);
+  });
 };
 
-function login(){
-  const username=document.getElementById('username').value.trim();
-  if(!username){ alert('Vul een gebruikersnaam in'); return; }
-  currentUser=username;
+function login() {
+  const u = document.getElementById('username').value.trim();
+  if (!u) return alert('Naam invullen');
+  user = u;
+  sessionStorage.setItem('zykon_user', u);
+  startApp();
+}
 
-  let userData=JSON.parse(localStorage.getItem('budget_'+currentUser))||{};
-  for(let i=0;i<12;i++){
-    if(!userData[i]){
-      userData[i]={income:0,rent:0,insurance:0,subscriptions:0,food:0,other:0,result:0};
-    }
-  }
-  localStorage.setItem('budget_'+currentUser,JSON.stringify(userData));
-
+function startApp() {
   document.getElementById('login-screen').classList.add('hidden');
-  document.getElementById('dashboard').classList.remove('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  showPage('dashboard');
   loadMonth();
 }
 
-function logout(){ 
-  currentUser=null; 
-  document.getElementById('login-screen').classList.remove('hidden'); 
-  document.getElementById('dashboard').classList.add('hidden'); 
+function logout() {
+  sessionStorage.clear();
+  location.reload();
 }
 
-function getValue(id){ return Number(document.getElementById(id).value)||0; }
-
-function calculate(){
-  const month=document.getElementById('month-select').value;
-  if(month===''){ alert('Selecteer een maand'); return; }
-
-  const income=getValue('income');
-  const rent=getValue('rent');
-  const insurance=getValue('insurance');
-  const subscriptions=getValue('subscriptions');
-  const food=getValue('food');
-  const other=getValue('other');
-
-  const expenses=rent+insurance+subscriptions+food+other;
-  const result=income-expenses;
-  document.getElementById('result').innerText='€'+result.toFixed(2);
-
-  let userData=JSON.parse(localStorage.getItem('budget_'+currentUser))||{};
-  userData[month]={income,rent,insurance,subscriptions,food,other,result};
-  localStorage.setItem('budget_'+currentUser,JSON.stringify(userData));
-
-  renderCharts(userData, month);
-  renderTable(userData);
+function toggleMenu() {
+  document.getElementById('side-menu').classList.toggle('hidden');
 }
 
-function loadMonth(){
-  const month=document.getElementById('month-select').value;
-  let userData=JSON.parse(localStorage.getItem('budget_'+currentUser))||{};
-
-  const data = month!=='' && userData[month]? userData[month] : {income:0,rent:0,insurance:0,subscriptions:0,food:0,other:0,result:0};
-  ['income','rent','insurance','subscriptions','food','other'].forEach(f=>document.getElementById(f).value=data[f]);
-  document.getElementById('result').innerText='€'+data.result.toFixed(2);
-
-  renderCharts(userData, month);
-  renderTable(userData);
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  document.getElementById('side-menu').classList.add('hidden');
 }
 
-function renderCharts(userData, selectedMonth){
-  const barCtx=document.getElementById('barChart').getContext('2d');
-  const pieCtx=document.getElementById('pieChart').getContext('2d');
-
-  const expensesData=months.map((m,i)=>{ const d=userData[i]; return d?d.rent+d.insurance+d.subscriptions+d.food+d.other:0; });
-  const incomeData=months.map((m,i)=>{ const d=userData[i]; return d?d.income:0; });
-  const resultData=months.map((m,i)=>{ const d=userData[i]; return d?d.result:0; });
-
-  const barData={ labels:months, datasets:[
-    {label:'Inkomsten', data:incomeData, backgroundColor:'#4f46e5'},
-    {label:'Uitgaven', data:expensesData, backgroundColor:'#ef4444'},
-    {label:'Over', data:resultData, backgroundColor:'#10b981'}
-  ]};
-
-  if(barChart) barChart.destroy();
-  barChart=new Chart(barCtx,{type:'bar', data:barData, options:{responsive:true, plugins:{legend:{position:'bottom'}}, scales:{y:{beginAtZero:true}}}});
-
-  if(selectedMonth!==''){
-    const selData=userData[selectedMonth]||{income:0,rent:0,insurance:0,subscriptions:0,food:0,other:0,result:0};
-    const pieData={ labels:['Vaste lasten','Variabele kosten','Over'], datasets:[{
-      data:[selData.rent+selData.insurance+selData.subscriptions, selData.food+selData.other, selData.result],
-      backgroundColor:['#ef4444','#facc15','#10b981']
-    }]};
-
-    if(pieChart) pieChart.destroy();
-    pieChart=new Chart(pieCtx,{type:'pie', data:pieData, options:{responsive:true, plugins:{legend:{position:'bottom'}}}});
-  }
+function getData() {
+  return JSON.parse(localStorage.getItem('zykon_'+user)) || {};
 }
 
-function renderTable(userData){
-  const tbody=document.getElementById('overviewTable').querySelector('tbody');
-  tbody.innerHTML='';
-  months.forEach((m,i)=>{
-    const d=userData[i];
-    const row=document.createElement('tr');
-    row.innerHTML=`<td>${m}</td>
-      <td>€${d.income.toFixed(2)}</td>
-      <td>€${(d.rent+d.insurance+d.subscriptions+d.food+d.other).toFixed(2)}</td>
-      <td>€${d.result.toFixed(2)}</td>`;
-    tbody.appendChild(row);
+function saveData(data) {
+  localStorage.setItem('zykon_'+user, JSON.stringify(data));
+}
+
+function calculate() {
+  const m = month-select.value;
+  const d = getData();
+
+  const income = +income.value || 0;
+  const rent = +rent.value || 0;
+  const insurance = +insurance.value || 0;
+  const subscriptions = +subscriptions.value || 0;
+  const food = +food.value || 0;
+  const other = +other.value || 0;
+
+  const result = income - (rent+insurance+subscriptions+food+other);
+  document.getElementById('result').innerText = '€'+result;
+
+  d[m] = {income,rent,insurance,subscriptions,food,other,result};
+  saveData(d);
+
+  renderCharts(d);
+}
+
+function loadMonth() {
+  const d = getData();
+  const m = month-select.value;
+  const x = d[m] || {};
+
+  income.value = x.income || '';
+  rent.value = x.rent || '';
+  insurance.value = x.insurance || '';
+  subscriptions.value = x.subscriptions || '';
+  food.value = x.food || '';
+  other.value = x.other || '';
+  result.innerText = '€'+(x.result||0);
+
+  renderCharts(d);
+}
+
+function renderCharts(data) {
+  const incomes = months.map((_,i)=>data[i]?.income||0);
+  const results = months.map((_,i)=>data[i]?.result||0);
+
+  if (barChart) barChart.destroy();
+  barChart = new Chart(barChart?.ctx||document.getElementById('barChart'),{
+    type:'bar',
+    data:{labels:months,datasets:[
+      {label:'Inkomen',data:incomes},
+      {label:'Over',data:results}
+    ]}
+  });
+
+  if (pieChart) pieChart.destroy();
+  pieChart = new Chart(document.getElementById('pieChart'),{
+    type:'pie',
+    data:{
+      labels:['Over','Uitgaven'],
+      datasets:[{data:[results[month-select.value]||0, incomes[month-select.value]||0]}]
+    }
   });
 }
