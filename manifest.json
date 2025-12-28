@@ -1,0 +1,13 @@
+{
+  "name": "Zykon",
+  "short_name": "Zykon",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [{
+    "src": "https://i.postimg.cc/yNvDqhPN/Screenshot-2025-12-27-23-50-38-85-92460851df6f172a4592fca41cc2d2e6.jpg",
+    "sizes": "192x192",
+    "type": "image/png"
+  }]
+}
