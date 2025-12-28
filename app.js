@@ -1,118 +1,105 @@
-const months = ["Jan","Feb","Mrt","Apr","Mei","Jun","Jul","Aug","Sep","Okt","Nov","Dec"];
-let currentUser = null;
-let barChart, pieChart;
+const months=["Jan","Feb","Mrt","Apr","Mei","Jun","Jul","Aug","Sep","Okt","Nov","Dec"]
+let user=null,barChart,pieChart
 
-window.onload = () => {
-  setTimeout(() => {
-    document.getElementById("splash").style.display = "none";
+window.onload=()=>{
+  setTimeout(()=>{
+    document.getElementById("splash").remove()
 
-    const saved = sessionStorage.getItem("zykon_user");
-    if (saved) {
-      currentUser = saved;
-      startApp();
-    } else {
-      document.getElementById("login-screen").classList.remove("hidden");
-    }
-  }, 5000);
+    const s=sessionStorage.getItem("zykon_user")
+    if(s){user=s;start()} 
+    else document.getElementById("login-screen").classList.remove("hidden")
+  },5000)
 
-  const monthSelect = document.getElementById("month");
-  months.forEach((m, i) => {
-    monthSelect.innerHTML += `<option value="${i}">${m}</option>`;
-  });
-};
+  const m=document.getElementById("month")
+  months.forEach((x,i)=>m.innerHTML+=`<option value="${i}">${x}</option>`)
 
-function doLogin() {
-  const name = document.getElementById("username").value.trim();
-  if (!name) return alert("Gebruikersnaam invullen");
-
-  currentUser = name;
-  sessionStorage.setItem("zykon_user", name);
-  startApp();
+  if("serviceWorker"in navigator){
+    navigator.serviceWorker.register("sw.js")
+  }
 }
 
-function startApp() {
-  document.getElementById("login-screen").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-  loadMonth();
+function doLogin(){
+  const u=username.value.trim()
+  const p=pin.value.trim()
+  if(!u||!p)return alert("Alles invullen")
+
+  sessionStorage.setItem("zykon_user",u)
+  localStorage.setItem("zykon_pin_"+u,p)
+  user=u
+  start()
 }
 
-function logout() {
-  sessionStorage.clear();
-  location.reload();
+function start(){
+  document.getElementById("login-screen").classList.add("hidden")
+  document.getElementById("app").classList.remove("hidden")
+  loadMonth()
 }
 
-function toggleMenu() {
-  document.getElementById("menu").classList.toggle("hidden");
+function logout(){
+  sessionStorage.clear()
+  location.reload()
 }
 
-function showPage(page) {
-  document.querySelectorAll(".page").forEach(p => p.classList.add("hidden"));
-  document.getElementById(page).classList.remove("hidden");
-  document.getElementById("menu").classList.add("hidden");
-  if (page === "charts") renderCharts();
+function toggleMenu(){menu.classList.toggle("hidden")}
+
+function showPage(p){
+  document.querySelectorAll(".page").forEach(x=>x.classList.add("hidden"))
+  document.getElementById(p).classList.remove("hidden")
+  menu.classList.add("hidden")
+  if(p==="charts")renderCharts()
 }
 
-function getData() {
-  return JSON.parse(localStorage.getItem("zykon_" + currentUser)) || {};
+function data(){
+  return JSON.parse(localStorage.getItem("zykon_"+user))||{}
 }
 
-function saveData() {
-  const data = getData();
-  const m = document.getElementById("month").value;
+function save(){
+  const d=data()
+  const m=month.value
 
-  const income = +income.value || 0;
-  const rent = +rent.value || 0;
-  const insurance = +insurance.value || 0;
-  const subs = +subs.value || 0;
-  const food = +food.value || 0;
-  const other = +other.value || 0;
+  const incomeV=+income.value||0
+  const rentV=+rent.value||0
+  const insV=+insurance.value||0
+  const subsV=+subs.value||0
+  const foodV=+food.value||0
+  const otherV=+other.value||0
 
-  const result = income - (rent + insurance + subs + food + other);
-  document.getElementById("result").innerText = "€" + result;
+  const resultV=incomeV-(rentV+insV+subsV+foodV+otherV)
+  result.innerText="€"+resultV
 
-  data[m] = { income, rent, insurance, subs, food, other, result };
-  localStorage.setItem("zykon_" + currentUser, JSON.stringify(data));
+  d[m]={incomeV,rentV,insV,subsV,foodV,otherV,resultV}
+  localStorage.setItem("zykon_"+user,JSON.stringify(d))
 }
 
-function loadMonth() {
-  const data = getData();
-  const m = document.getElementById("month").value;
-  const d = data[m] || {};
-
-  income.value = d.income || "";
-  rent.value = d.rent || "";
-  insurance.value = d.insurance || "";
-  subs.value = d.subs || "";
-  food.value = d.food || "";
-  other.value = d.other || "";
-  result.innerText = "€" + (d.result || 0);
+function loadMonth(){
+  const d=data()[month.value]||{}
+  income.value=d.incomeV||""
+  rent.value=d.rentV||""
+  insurance.value=d.insV||""
+  subs.value=d.subsV||""
+  food.value=d.foodV||""
+  other.value=d.otherV||""
+  result.innerText="€"+(d.resultV||0)
 }
 
-function renderCharts() {
-  const data = getData();
-  const incomes = months.map((_, i) => data[i]?.income || 0);
-  const results = months.map((_, i) => data[i]?.result || 0);
+function renderCharts(){
+  const d=data()
+  const inc=months.map((_,i)=>d[i]?.incomeV||0)
+  const res=months.map((_,i)=>d[i]?.resultV||0)
 
-  if (barChart) barChart.destroy();
-  barChart = new Chart(document.getElementById("barChart"), {
-    type: "bar",
-    data: {
-      labels: months,
-      datasets: [
-        { label: "Inkomen", data: incomes },
-        { label: "Over", data: results }
-      ]
-    }
-  });
+  if(barChart)barChart.destroy()
+  barChart=new Chart(barChart||document.getElementById("barChart"),{
+    type:"bar",
+    data:{labels:months,datasets:[
+      {label:"Inkomen",data:inc},
+      {label:"Over",data:res}
+    ]}
+  })
 
-  if (pieChart) pieChart.destroy();
-  pieChart = new Chart(document.getElementById("pieChart"), {
-    type: "pie",
-    data: {
-      labels: ["Over", "Uitgaven"],
-      datasets: [
-        { data: [results[month.value] || 0, incomes[month.value] || 0] }
-      ]
-    }
-  });
+  if(pieChart)pieChart.destroy()
+  pieChart=new Chart(document.getElementById("pieChart"),{
+    type:"pie",
+    data:{labels:["Over","Uitgaven"],
+    datasets:[{data:[res[month.value]||0,inc[month.value]||0]}]}
+  })
 }
