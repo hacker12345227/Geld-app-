@@ -9,68 +9,69 @@
 </head>
 <body>
 
-<!-- Splash -->
+<!-- SPLASH -->
 <div id="splash">
-  <img src="https://i.postimg.cc/Y04Gz4QD/ezgif-2db455828359a703.gif">
+  <img src="https://i.postimg.cc/Y04Gz4QD/ezgif-2db455828359a703.gif" alt="Splash">
 </div>
 
-<!-- Login -->
-<div id="login" class="hidden">
-  <img src="https://i.postimg.cc/yNvDqhPN/Screenshot-2025-12-27-23-50-38-85-92460851df6f172a4592fca41cc2d2e6.jpg">
+<!-- LOGIN -->
+<div id="login-screen" class="hidden">
+  <img class="logo" src="https://i.postimg.cc/yNvDqhPN/Screenshot-2025-12-27-23-50-38-85-92460851df6f172a4592fca41cc2d2e6.jpg">
   <h2>Zykon</h2>
   <input id="username" placeholder="Gebruikersnaam">
-  <button onclick="login()">Inloggen</button>
+  <button onclick="doLogin()">Inloggen</button>
 </div>
 
-<!-- App -->
+<!-- APP -->
 <div id="app" class="hidden">
 
-<header>
-  <div class="hamburger" onclick="toggleMenu()">☰</div>
-  <div class="title">
-    <img src="https://i.postimg.cc/yNvDqhPN/Screenshot-2025-12-27-23-50-38-85-92460851df6f172a4592fca41cc2d2e6.jpg">
-    <span>Zykon</span>
-  </div>
-</header>
+  <header>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <div class="title">
+      <img src="https://i.postimg.cc/yNvDqhPN/Screenshot-2025-12-27-23-50-38-85-92460851df6f172a4592fca41cc2d2e6.jpg">
+      <span>Zykon</span>
+    </div>
+  </header>
 
-<nav id="menu" class="hidden">
-  <button onclick="show('dashboard')">Dashboard</button>
-  <button onclick="show('charts')">Grafieken</button>
-  <button class="logout" onclick="logout()">Uitloggen</button>
-</nav>
+  <nav id="menu" class="hidden">
+    <button onclick="showPage('dashboard')">Dashboard</button>
+    <button onclick="showPage('charts')">Grafieken</button>
+    <button class="logout" onclick="logout()">Uitloggen</button>
+  </nav>
 
-<main id="dashboard" class="page">
+  <!-- DASHBOARD -->
+  <main id="dashboard" class="page">
+    <div class="card">
+      <select id="month" onchange="loadMonth()"></select>
+    </div>
 
-  <div class="card">
-    <select id="month" onchange="loadMonth()"></select>
-  </div>
+    <div class="card">
+      <h3>Inkomen</h3>
+      <input type="number" inputmode="decimal" id="income">
+    </div>
 
-  <div class="card">
-    <h3>Inkomen</h3>
-    <input type="number" id="income">
-  </div>
+    <div class="card">
+      <h3>Uitgaven</h3>
+      <input type="number" inputmode="decimal" id="rent" placeholder="Huur">
+      <input type="number" inputmode="decimal" id="insurance" placeholder="Verzekering">
+      <input type="number" inputmode="decimal" id="subs" placeholder="Abonnementen">
+      <input type="number" inputmode="decimal" id="food" placeholder="Boodschappen">
+      <input type="number" inputmode="decimal" id="other" placeholder="Overig">
+    </div>
 
-  <div class="card">
-    <h3>Uitgaven</h3>
-    <input type="number" id="rent" placeholder="Huur">
-    <input type="number" id="insurance" placeholder="Verzekering">
-    <input type="number" id="subs" placeholder="Abonnementen">
-    <input type="number" id="food" placeholder="Boodschappen">
-    <input type="number" id="other" placeholder="Overig">
-  </div>
+    <div class="card highlight">
+      <h3>Over</h3>
+      <div id="result">€0</div>
+    </div>
 
-  <div class="card highlight">
-    <h3>Over</h3>
-    <div id="result">€0</div>
-  </div>
+    <button onclick="saveData()">Opslaan</button>
+  </main>
 
-  <button onclick="save()">Opslaan</button>
-</main>
-
-<main id="charts" class="page hidden">
-  <canvas id="bar"></canvas>
-  <canvas id="pie"></canvas>
-</main>
+  <!-- GRAFIEKEN -->
+  <main id="charts" class="page hidden">
+    <canvas id="barChart"></canvas>
+    <canvas id="pieChart"></canvas>
+  </main>
 
 </div>
 
