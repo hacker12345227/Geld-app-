@@ -4,11 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zykon</title>
-
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
 
 <!-- SPLASH -->
@@ -20,16 +18,13 @@
 <div id="login-screen" class="hidden">
   <img class="logo" src="https://i.postimg.cc/yNvDqhPN/Screenshot-2025-12-27-23-50-38-85-92460851df6f172a4592fca41cc2d2e6.jpg">
   <h1>Zykon</h1>
-
   <input id="username" placeholder="Gebruikersnaam">
   <input id="pin" type="password" placeholder="Wachtwoord">
-
   <button onclick="doLogin()">Inloggen</button>
 </div>
 
 <!-- APP -->
 <div id="app" class="hidden">
-
 <header>
   <button onclick="toggleMenu()">☰</button>
   <img class="logo-small" src="https://i.postimg.cc/yNvDqhPN/Screenshot-2025-12-27-23-50-38-85-92460851df6f172a4592fca41cc2d2e6.jpg">
@@ -42,7 +37,6 @@
 </nav>
 
 <main>
-
 <!-- HOME -->
 <section id="home" class="page">
   <select id="month" onchange="loadMonth()"></select>
@@ -54,7 +48,6 @@
     <input id="subs" type="number" placeholder="Abonnementen">
     <input id="food" type="number" placeholder="Eten">
     <input id="other" type="number" placeholder="Overig">
-
     <button onclick="save()">Opslaan</button>
     <div id="result">€0</div>
   </div>
@@ -65,7 +58,6 @@
   <canvas id="barChart"></canvas>
   <canvas id="pieChart"></canvas>
 </section>
-
 </main>
 </div>
 
