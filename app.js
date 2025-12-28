@@ -3,7 +3,9 @@ let user=null,barChart,pieChart
 
 window.onload=()=>{
   setTimeout(()=>{
-    document.getElementById("splash").remove()
+    const splash=document.getElementById("splash");
+    splash.style.opacity=0;
+    setTimeout(()=>splash.remove(),300)
 
     const s=sessionStorage.getItem("zykon_user")
     if(s){user=s;start()} 
@@ -13,9 +15,8 @@ window.onload=()=>{
   const m=document.getElementById("month")
   months.forEach((x,i)=>m.innerHTML+=`<option value="${i}">${x}</option>`)
 
-  if("serviceWorker"in navigator){
+  if("serviceWorker"in navigator)
     navigator.serviceWorker.register("sw.js")
-  }
 }
 
 function doLogin(){
@@ -26,11 +27,11 @@ function doLogin(){
   sessionStorage.setItem("zykon_user",u)
   localStorage.setItem("zykon_pin_"+u,p)
   user=u
-  start()
-}
 
-function start(){
-  document.getElementById("login-screen").classList.add("hidden")
+  const login=document.getElementById("login-screen")
+  login.style.opacity=0
+  setTimeout(()=>login.remove(),300)
+
   document.getElementById("app").classList.remove("hidden")
   loadMonth()
 }
@@ -49,14 +50,10 @@ function showPage(p){
   if(p==="charts")renderCharts()
 }
 
-function data(){
-  return JSON.parse(localStorage.getItem("zykon_"+user))||{}
-}
+function data(){return JSON.parse(localStorage.getItem("zykon_"+user))||{}}
 
 function save(){
-  const d=data()
-  const m=month.value
-
+  const d=data(), m=month.value
   const incomeV=+income.value||0
   const rentV=+rent.value||0
   const insV=+insurance.value||0
@@ -99,7 +96,6 @@ function renderCharts(){
   if(pieChart)pieChart.destroy()
   pieChart=new Chart(document.getElementById("pieChart"),{
     type:"pie",
-    data:{labels:["Over","Uitgaven"],
-    datasets:[{data:[res[month.value]||0,inc[month.value]||0]}]}
+    data:{labels:["Over","Uitgaven"],datasets:[{data:[res[month.value]||0,inc[month.value]||0]}]}
   })
 }
